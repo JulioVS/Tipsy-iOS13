@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  CalculatorViewController.swift
 //  Tipsy
 //
 //  Created by Angela Yu on 09/09/2019.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class CalculatorViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
