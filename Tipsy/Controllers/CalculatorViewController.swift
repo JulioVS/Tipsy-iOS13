@@ -10,9 +10,10 @@ import UIKit
 
 class CalculatorViewController: UIViewController {
     
-    var tipRate = 0.1
-    var splitNumber = 2.0
-
+    var tipPercentage: Double = 0.10
+    var numberOfPeople: Double = 2.00
+    var splitValue: Double = 0.00
+    
     @IBOutlet weak var billTextField: UITextField!
     @IBOutlet weak var zeroPctButton: UIButton!
     @IBOutlet weak var tenPctButton: UIButton!
@@ -29,28 +30,54 @@ class CalculatorViewController: UIViewController {
         
         switch sender.currentTitle {
         case "0%":
-            tipRate = 0.0
+            tipPercentage = 0.0
         case "10%":
-            tipRate = 0.1
+            tipPercentage = 0.1
         case "20%":
-            tipRate = 0.2
+            tipPercentage = 0.2
         default:
-            tipRate = 0.1
+            tipPercentage = 0.1
         }
+        
+        billTextField.endEditing(true)
         
     }
     
     @IBAction func stepperValueChanged(_ sender: UIStepper) {
         
         splitNumberLabel.text = String(format: "%.0f", sender.value)
-        splitNumber = sender.value
+        numberOfPeople = sender.value
 
     }
     
     @IBAction func calculatePressed(_ sender: UIButton) {
         
-        print(tipRate)
-        print(String(format: "%.0f", splitNumber))
+        print(tipPercentage)
+        print(String(format: "%.0f", numberOfPeople))
+        print(billTextField.text!)
+        
+        let billValue: Double = Double(billTextField.text!) ?? 0.0
+        let tipValue: Double = billValue * tipPercentage
+        let totalValue: Double = billValue + tipValue
+        
+        splitValue = totalValue / numberOfPeople
+        
+        print("Bill is $ \(billValue), \(tipPercentage*100) % Tip is $ \(tipValue), Total is $ \(totalValue), Split is $ \(splitValue) between \(numberOfPeople) people")
+
+        self.performSegue(withIdentifier: "goToResults", sender: self)
+        
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "goToResults" {
+            
+            let resultsVC = segue.destination as! ResultsViewController
+            
+            resultsVC.splitValue = String(format: "%.2f", splitValue)
+            resultsVC.detailText = "Split between \(Int(numberOfPeople)) people, with \(Int(tipPercentage*100))% tip."
+            
+        }
         
     }
     

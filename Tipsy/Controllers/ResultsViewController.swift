@@ -9,7 +9,10 @@
 import UIKit
 
 class ResultsViewController: UIViewController {
-
+    
+    var splitValue: String?
+    var detailText: String?
+    
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var settingsLabel: UILabel!
     
@@ -17,9 +20,13 @@ class ResultsViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        totalLabel.text = splitValue
+        settingsLabel.text = detailText
     }
     
     @IBAction func recalculatePressed(_ sender: UIButton) {
+        
+        self.dismiss(animated: true, completion: nil)
         
     }
     
